@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игровая Площадка - Слот Машина</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+<div class="nav-buttons">
+    <button class="nav-button active-nav" onclick="showGame('fruit')">Фрукты</button>
+    <button class="nav-button" onclick="showGame('mine')">Шахта</button>
+    <button class="nav-button" onclick="showGame('jack')">Джек</button>
+</div>
+
+<div id="balance-container">
+    <p>Игровой баланс: <span id="balance">0</span> рублей</p>
+    <p>Жетоны Bull: <span id="bull-tokens">0</span></p>
+    <p>Фриспины: <span id="free-spins">0</span></p>
+    <button id="deposit-button" onclick="depositBalance()">Пополнить баланс</button>
+    <button id="buy-bull-tokens-button" onclick="buyBullTokens()">Купить жетоны Bull</button>
+    <button id="withdraw-button" onclick="withdrawBalance()">Вывести средства</button>
+</div>
+
+<div id="fruit-game" class="game-container">
+    <div class="slots">
+        <div class="slot-reel">
+            <div class="symbols">
+                <span class="symbol">🍒</span>
+                <span class="symbol">🍋</span>
+                <span class="symbol">🍉</span>
+                <span class="symbol">🍇</span>
+                <span class="symbol">🍓</span>
+                <span class="symbol">🥝</span>
+                <span class="symbol">🍌</span>
+                <span class="symbol">🍑</span>
+            </div>
+        </div>
+        <div class="slot-reel">
+            <div class="symbols">
+                <span class="symbol">🍒</span>
+                <span class="symbol">🍋</span>
+                <span class="symbol">🍉</span>
+                <span class="symbol">🍇</span>
+                <span class="symbol">🍓</span>
+                <span class="symbol">🥝</span>
+                <span class="symbol">🍌</span>
+                <span class="symbol">🍑</span>
+            </div>
+        </div>
+        <div class="slot-reel">
+            <div class="symbols">
+                <span class="symbol">🍒</span>
+                <span class="symbol">🍋</span>
+                <span class="symbol">🍉</span>
+                <span class="symbol">🍇</span>
+                <span class="symbol">🍓</span>
+                <span class="symbol">🥝</span>
+                <span class="symbol">🍌</span>
+                <span class="symbol">🍑</span>
+            </div>
+        </div>
+    </div>
+    <button id="spin-fruit" onclick="spinSlots('fruit')">Крутить</button>
+    <button id="auto-spin-fruit" onclick="autoSpin('fruit')">Авто спин</button>
+    <p id="result-fruit"></p>
+    <p id="win-fruit"></p>
+    <p id="jackpot-fruit"></p>
+    <h3>Таблица выплат:</h3>
+    <table id="paytable-fruit">
+        <tr>
+            <th>Комбинация</th>
+            <th>Выплата</th>
+        </tr>
+        <tr>
+            <td>🍒🍒🍒</td>
+            <td>x11</td>
+        </tr>
+        <tr>
+            <td>🍋🍋🍋</td>
+            <td>x13</td>
+        </tr>
+        <tr>
+            <td>🍉🍉🍉</td>
+            <td>x15</td>
+        </tr>
+        <tr>
+            <td>🍇🍇🍇</td>
+            <td>x18</td> 
+        </tr>
+        <tr>
+            <td>🍓🍓🍓</td>
+            <td>x20</td> 
+        </tr>
+        <tr>
+            <td>🍑🍑🍑</td>
+            <td>x25</td> 
+        </tr>
+        <tr>
+            <td>🍌🍌🍌</td>
+            <td>x28</td> 
+        </tr>
+        <tr>
+            <td>🍌🍑🍌</td>
+            <td>x30</td> 
+        </tr>
+        <tr>
+            <td>🍌🍒🍌</td>
+            <td>x40</td>  
+        </tr>
+        <tr>
+            <td>🍌🍓🍌</td>
+            <td>x45</td> 
+        </tr>
+        <tr>
+            <td>🍓🍌🍓</td>
+            <td>x48</td> 
+     </table>
+</div>
+
+<div id="mine-game" class="game-container" style="display: none;">
+    <div class="slots">
+        <div class="slot-reel">
+            <div class="symbols">
+                <span class="symbol">💎</span>
+                <span class="symbol">🔷</span>
+                <span class="symbol">💠</span>
+                <span class="symbol">💙</span>
+                <span class="symbol">💚</span>
+                <span class="symbol">💛</span>
+                <span class="symbol">🧡</span>
+                <span class="symbol">❤️</span>
+            </div>
+        </div>
+        <div class="slot-reel">
+            <div class="symbols">
+                <span class="symbol">💎</span>
+                <span class="symbol">🔷</span>
+                <span class="symbol">💠</span>
+                <span class="symbol">💙</span>
+                <span class="symbol">💚</span>
+                <span class="symbol">💛</span>
+                <span class="symbol">🧡</span>
+                <span class="symbol">❤️</span>
+            </div>
+        </div>
+        <div class="slot-reel">
+            <div class="symbols">
+                <span class="symbol">💎</span>
+                <span class="symbol">🔷</span>
+                <span class="symbol">💠</span>
+                <span class="symbol">💙</span>
+                <span class="symbol">💚</span>
+                <span class="symbol">💛</span>
+                <span class="symbol">🧡</span>
+                <span class="symbol">❤️</span>
+            </div>
+        </div>
+    </div>
+    <button id="spin-mine" onclick="spinSlots('mine')">Крутить</button>
+    <button id="auto-spin-mine" onclick="autoSpin('mine')">Авто спин</button>
+    <p id="result-mine"></p>
+    <p id="win-mine"></p>
+    <p id="jackpot-mine"></p>
+    <h3>Таблица выплат:</h3>
+    <table id="paytable-mine">
+        <tr>
+            <th>Комбинация</th>
+            <th>Выплата</th>
+        </tr>
+        <tr>
+            <td>💎💎💎</td>
+            <td>x11</td>
+        </tr>
+        <tr>
+            <td>🔷🔷🔷</td>
+            <td>x13</td>
+        </tr>
+        <tr>
+            <td>💠💠💠</td>
+            <td>x15</td>
+        </tr>
+        <tr>
+            <td>💙💙💙</td>
+            <td>x18</td> 
+        </tr>
+        <tr>
+            <td>💚💚💚</td>
+            <td>x20</td>  
+        </tr>
+        <tr>
+            <td>🧡🧡🧡</td>
+            <td>x23</td> 
+        </tr>
+        <tr>
+            <td>💎💠💎</td>
+            <td>x28</td> 
+        </tr>
+        <tr>
+            <td>💎🔷💎</td>
+            <td>x33</td> 
+        </tr>
+        <tr>
+            <td>🔷💎🔷</td>
+            <td>x35</td> 
+        </tr>
+        <tr>
+            <td>🧡💛💚</td>
+            <td>x50</td>
+     </table>
+</div>
+
+<div id="jack-game" class="game-container" style="display: none;">
+    <div class="slots">
+        <div class="slot-reel">
+            <div class="symbols">
+                <span class="symbol">♣️</span>
+                <span class="symbol">♦️</span>
+                <span class="symbol">♥️</span>
+                <span class="symbol">♠️</span>
+                <span class="symbol">7</span>
+                <span class="symbol">Q</span>
+                <span class="symbol">A</span>
+                <span class="symbol">K</span>
+                <span class="symbol">J</span>
+            </div>
+        </div>
+        <div class="slot-reel">
+            <div class="symbols">
+                <span class="symbol">♣️</span>
+                <span class="symbol">♦️</span>
+                <span class="symbol">♥️</span>
+                <span class="symbol">♠️</span>
+                <span class="symbol">7</span>
+                <span class="symbol">Q</span>
+                <span class="symbol">A</span>
+                <span class="symbol">K</span>
+                <span class="symbol">J</span>
+            </div>
+        </div>
+        <div class="slot-reel">
+            <div class="symbols">
+                <span class="symbol">♣️</span>
+                <span class="symbol">♦️</span>
+                <span class="symbol">♥️</span>
+                <span class="symbol">♠️</span>
+                <span class="symbol">7</span>
+                <span class="symbol">Q</span>
+                <span class="symbol">A</span>
+                <span class="symbol">K</span>
+                <span class="symbol">J</span>
+            </div>
+        </div>
+    </div>
+    <button id="spin-jack" onclick="spinSlots('jack')">Крутить</button>
+    <button id="auto-spin-jack" onclick="autoSpin('jack')">Авто спин</button>
+    <p id="result-jack"></p>
+    <p id="win-jack"></p>
+    <p id="jackpot-jack"></p>
+    <h3>Таблица выплат:</h3>
+    <table id="paytable-jack">
+        <tr>
+            <th>Комбинация</th>
+            <th>Выплата</th>
+        </tr>
+        <tr>
+            <td>♣️♣️♣️</td>
+            <td>x11</td>
+        </tr>
+        <tr>
+            <td>♦️♦️♦️</td>
+            <td>x13</td>
+        </tr>
+        <tr>
+            <td>♥️♥️♥️</td>
+            <td>x15</td>
+        </tr>
+        <tr> 
+            <td>♠️♠️♠️</td>
+            <td>x20</td>
+       </tr>
+       <tr> 
+           <td>777</td>
+           <td>x22</td> 
+       </tr>
+       <tr> 
+           <td>KKK</td>
+           <td>x25</td> 
+       </tr>
+       <tr> 
+           <td>QQQ</td>
+           <td>x28</td>  
+      </tr>
+      <tr> 
+          <td>JJJ</td>
+          <td>x30</td> 
+     </tr>
+     <tr> 
+         <td>AAA</td>
+         <td>x33</td> 
+     </table>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
